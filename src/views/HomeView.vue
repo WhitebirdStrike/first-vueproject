@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h2>{{ appTitle }}</h2>
+    <h2 ref="appTitleRef">{{ appTitle }}</h2>
 
     <h3>{{ counterData.title }}</h3>
     <div>
@@ -16,29 +16,32 @@
 
     <div class="edit">
       <h4>Edit counter title</h4>
-      <input v-model="counterData.title" type="text" />
+      <input v-model="counterData.title" type="text" v-autofocus />
     </div>
   </div>
 </template>
 
 <script setup>
-import {
-  reactive,
-  computed,
-  watch,
-  onBeforeMount,
-  onMounted,
-  onBeforeUnmount,
-  onUnmounted,
-  onActivated,
-  onDeactivated,
-} from "vue";
+/*
+imports
+*/
+import { ref, reactive, computed, watch, onMounted, nextTick } from "vue";
+import { vAutofocus } from "@/directives/vAutofocus";
 
+/*
+app title
+*/
 const appTitle = "My Amazing Counter App";
 
-//const counter = ref(0);
-//const counterTitle = ref("My Counter");
+const appTitleRef = ref(null);
 
+onMounted(() => {
+  console.log(`The app title is ${appTitleRef.value.offsetWidth} px wide!`);
+});
+
+/*
+counter
+*/
 const counterData = reactive({
   count: 0,
   title: "My Counter",
@@ -59,102 +62,39 @@ const oddOrEven = computed(() => {
   return "odd";
 });
 
-const increaseCounter = (amount, e) => {
+const increaseCounter = async (amount, e) => {
   counterData.count += amount;
+  await nextTick();
+  console.log("do something when counter has updated in the dom");
 };
 
 const decreaseCounter = (amount) => {
   counterData.count -= amount;
 };
 
-onBeforeMount(() => {
-  console.log("onBeforeMount");
-});
 onMounted(() => {
-  console.log("onMounted");
-});
-onBeforeUnmount(() => {
-  console.log("onBeforeUnmount");
-});
-onUnmounted(() => {
-  console.log("onUnmounted");
-});
-onActivated(() => {
-  console.log("onUnmounted");
-});
-onDeactivated(() => {
-  console.log("onDeactivated");
+  console.log("Do stuff related to Counter");
 });
 </script>
+
 <!--
 <script>
 export default {
   data() {
     return {
-      count: 0
-    }
+      count: 0,
+    };
   },
   computed: {
     myComputedProperty() {
-      return 'my result'
-    }
-  },
-  watch: {
-    count(newCount, oldCount) {
-      if (newCount == 20) alert('20 pingas')
-    }
+      return "my result";
+    },
   },
   mounted() {
-    console.log('mounted')
+    console.log("mounted");
   },
   unmounted() {
-    console.log('unmounted')
-  }
-}
-
-</script>
--->
-<!--
-<script>
-import { ref } from "vue";
-
-export default {
-  setup() {
-    const counter = ref(0);
-
-    const increaseCounter = () => {
-      counter.value++;
-    };
-
-    const decreaseCounter = () => {
-      counter.value--;
-    };
-
-    return {
-      counter,
-      decreaseCounter,
-      increaseCounter,
-    };
-  },
-};
-</script>
--->
-
-<!--
-<script>
-export default {
-  data() {
-    return {
-      counter: 0,
-    };
-  },
-  methods: {
-    increaseCounter() {
-      this.counter++;
-    },
-    decreaseCounter() {
-      this.counter--;
-    },
+    console.log("unmounted");
   },
 };
 </script>
