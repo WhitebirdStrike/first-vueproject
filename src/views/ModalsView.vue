@@ -1,19 +1,25 @@
 <template>
   <div class="modals">
     <h1>Modals</h1>
+    <div>
+      <label
+        >Show dark modals???
+        <input v-model="showDarkModals" type="checkbox" />
+      </label>
+    </div>
     <button @click="showModal = true">Show modal</button>
-    <teleport to=".modals-container">
-      <div v-if="showModal" class="modal">
-        <h1>This is a modal</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
-          accusamus molestias quia commodi perferendis voluptatem voluptatibus,
-          aliquid id culpa modi, quae amet impedit magnam accusantium ut iure
-          magni! Dolorum, officia.
-        </p>
-        <button @click="showModal = false">Hide modal</button>
-      </div>
-    </teleport>
+    <component
+      v-model="showModal"
+      :is="showDarkModals ? ModalDark : Modal"
+      title="My modal title (via prop)"
+    >
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+        accusamus molestias quia commodi perferendis voluptatem voluptatibus,
+        aliquid id culpa modi, quae amet impedit magnam accusantium ut iure
+        magni! Dolorum, officia.
+      </p>
+    </component>
   </div>
 </template>
 
@@ -23,29 +29,19 @@ imports
 */
 
 import { ref } from "vue";
+import Modal from "@/components/global/Modal.vue";
+import ModalDark from "@/components/global/ModalDark.vue";
 
 /*
 modals
 */
 
+const showDarkModals = ref(false);
 const showModal = ref(false);
 </script>
 
-<style>
-.modal {
-  background: beige;
-  padding: 10px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-</style>
-<!--
-<script>
-import Modal from "@/components/Modal.vue";
+<!-- <script>
+import Modal from "@/components/global/Modal.vue";
 
 export default {
   components: {

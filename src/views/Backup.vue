@@ -80,15 +80,58 @@ onBeforeMount, onMounted, onBeforeUnmount, onUnmounted, onActivated,
 onDeactivated, onBeforeUpdate, onUpdated onBeforeUpdate(() => {
 console.log("onBeforeUpdate"); }); onUpdated(() => { console.log("onUpdated");
 }); //const counter = ref(0); //const counterTitle = ref("My Counter");
+
+<template>
+  <div class="modals">
+    <h1>Modals</h1>
+    <button @click="showModal = true">Show modal</button>
+    <h1>This is a modal</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+      accusamus molestias quia commodi perferendis voluptatem voluptatibus,
+      aliquid id culpa modi, quae amet impedit magnam accusantium ut iure magni!
+      Dolorum, officia.
+    </p>
+    <button @click="showModal = true">Hide modal</button>
+    <Modal v-if="showModal"></Modal>
+  </div>
+</template>
+
+<script setup>
+/*
+imports
+*/
+
+import { ref } from "vue";
+
+/*
+modals
+*/
+
+const showModal = ref(false);
+</script>
+
+<!--
+<script>
+import Modal from "@/components/Modal.vue";
+
+export default {
+  components: {
+    Modal,
+  },
+};
+</script>
+-->
+
 <template>
   <teleport to=".modals-container">
-    <div class="modals">
+    <div class="modal">
       <h1>This is a modal</h1>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, quas
-        vitae deleniti sit rem reiciendis omnis dolorum. Fugit, accusamus hic!
-        Reprehenderit saepe maxime culpa aliquam, accusantium neque aut iure
-        temporibus.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+        accusamus molestias quia commodi perferendis voluptatem voluptatibus,
+        aliquid id culpa modi, quae amet impedit magnam accusantium ut iure
+        magni! Dolorum, officia.
       </p>
       <button>Hide modal</button>
     </div>
